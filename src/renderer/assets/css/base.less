@@ -1,0 +1,79 @@
+@import "https://at.alicdn.com/t/font_1088813_vrfucc305to.css";
+*{
+	padding: 0;
+	margin: 0;
+}
+#app,html,body{
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+}
+
+html{
+	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif !important;
+    text-rendering: optimizeLegibility;
+}
+
+ul,li{
+	list-style: none;
+}
+.scroll{
+	&::-webkit-scrollbar {/*滚动条整体样式*/
+		width: 5px;     /*高宽分别对应横竖滚动条的尺寸*/
+		height: 1px;
+	}
+	&::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+		border-radius: 5px;
+		-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+		background: #535353;
+	}
+	&::-webkit-scrollbar-track {/*滚动条里面轨道*/
+		-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+		border-radius: 5px;
+		background: #EDEDED;
+	}
+}
+.vue-codemirror-wrap{
+	height: 100%;
+}
+.CodeMirror{
+	height: 100%!important;
+	border-right: 1px solid #eee;
+}
+.CodeMirror-vscrollbar,.CodeMirror-scroll{
+	&::-webkit-scrollbar {/*滚动条整体样式*/
+		width: 5px;     /*高宽分别对应横竖滚动条的尺寸*/
+		height: 1px;
+	}
+	&::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+		border-radius: 5px;
+		-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+		background: #535353;
+	}
+	&::-webkit-scrollbar-track {/*滚动条里面轨道*/
+		-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+		border-radius: 5px;
+		background: #EDEDED;
+	}
+}
+
+
+.file-poptip{
+	.ivu-poptip-body{
+		padding: 0;
+		padding-top: 1px;
+	}
+	.header-list-button{
+		padding:5px 8px;
+		height: 25px;
+		line-height: 25px;
+		border-bottom: 1px solid #eee;
+		font-size: 14px;
+		display: block;
+		box-sizing: content-box;
+		cursor: pointer;
+		&:hover{
+			background: #eee;
+		}
+	}
+}
