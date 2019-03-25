@@ -1,4 +1,4 @@
-@import "https://at.alicdn.com/t/font_1088813_vrfucc305to.css";
+@import "https://at.alicdn.com/t/font_1088813_6wc4wq9vonn.css";
 *{
 	padding: 0;
 	margin: 0;
@@ -9,13 +9,17 @@
 	font-size: 14px;
 }
 
+img {
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: -o-crisp-edges; /* Opera */
+    image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+}
+
 html{
 	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif !important;
     text-rendering: optimizeLegibility;
-}
-
-ul,li{
-	list-style: none;
 }
 .scroll{
 	&::-webkit-scrollbar {/*滚动条整体样式*/
@@ -57,11 +61,11 @@ ul,li{
 	}
 }
 
-
 .file-poptip{
 	.ivu-poptip-body{
 		padding: 0;
-		padding-top: 1px;
+		padding-top: 1px!important;
+
 	}
 	.header-list-button{
 		padding:5px 8px;
@@ -75,5 +79,26 @@ ul,li{
 		&:hover{
 			background: #eee;
 		}
+	}
+	.header-list-button{
+		span{
+			float: left;
+		}
+		strong{
+			float: right;
+			font-weight: normal;
+			font-size: 12px;
+			color: #ccc;
+			padding-left: 15px;
+		}
+	}
+}
+
+ul,li{
+	list-style: none;
+}
+.md-body{
+	ul,li{
+		list-style: inherit!important;
 	}
 }

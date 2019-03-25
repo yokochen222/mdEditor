@@ -1,25 +1,24 @@
 <template>
 	<div class="md-body">
-		<MarkdownItVue :content="value"/>
+		<MarkdownItVue :content="editorContent"/>
 	</div>
 </template>
 <script>
 import MarkdownItVue from 'markdown-it-vue'
+import {mapGetters} from "vuex"
 export default {
 	components:{
 		MarkdownItVue
 	},
-	props:{
-		value:{
-			type:String,
-			default:""
-		}
+	computed:{
+		...mapGetters("Editor",["editorContent"])
 	}
 }
 </script>
 <style lang="less" scoped>
 	.md-body{
 		padding:5px 15px;
-		font-family: -apple-system,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Arial,sans-serif;
+		max-width: 668px;
+		margin: 0 auto;
 	}
 </style>

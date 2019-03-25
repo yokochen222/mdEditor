@@ -9,11 +9,13 @@ if (process.env.NODE_ENV !== 'development') {
     global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
-  : `file://${__dirname}/index.html`
+? `http://localhost:9080`
+: `file://${__dirname}/index.html`
 
+
+
+let mainWindow
 function createWindow () {
     /**
      * Initial window options
@@ -49,18 +51,28 @@ app.on('activate', () => {
     }
 })
 
-ipcMain.on("changeWindow",(e,type)=>{
+
+ipcMain.on("changeWindow",(event,type)=>{
     switch(type){
-        case "login":{
-            mainWindow.setSize(340, 460)
-            mainWindow.setResizable(false)
+        case "max":{
+            mainWindow.maximize()
             mainWindow.center()
             break
         }
-        case "default":{
-            mainWindow.setResizable(true)
-            mainWindow.setSize(940, 630)
+        case "min":{
+            mainWindow.unmaximize()
             mainWindow.center()
+            break
+        }
+        case "hide":{
+            mainWindow.minimize()
+            mainWindow.center()
+            break
+        }
+        case "close":{
+            mainWindow.minimize()
+            mainWindow.center()
+            break
         }
     }
 })
@@ -86,8 +98,10 @@ ipcMain.on("open-markdown-file",(event)=>{
         ],
         properties:['openFile'] //['openFile','openDirectory']
     },(files)=>{
-        const markdown=fs.readFileSync(files[0])
-        event.sender.send("selected-markdown-file",{path:files,content:iconv.decode(markdown,"utf8")})
+        if(files){
+            const markdown=fs.readFileSync(files[0])
+            event.sender.send("selected-markdown-file",{path:files,content:iconv.decode(markdown,"utf8")})
+        }
     })
 })
 

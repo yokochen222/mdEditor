@@ -1,35 +1,25 @@
 <template>
     <div class="md-header">
-        <ul class="md-header-button-group">
-            <li>
-                <Poptip placement="bottom-start" theme="dark" popper-class="file-poptip">
-                    <div class="header-button">文件</div>
-                    <div slot="content" class="header-button-content">
-                        <p class="header-list-button" @click="openMdFile">打开文件</p>
-                        <p class="header-list-button">保存文件</p>
-                        <p class="header-list-button">另存为...</p>
-                    </div>
-                </Poptip>
-            </li>
-            <li>
-                <div class="header-button">设置</div>
-            </li>
-        </ul>
+        <div class="brand-ico">
+            <img src="@/assets/img/brand.svg"/>
+        </div>
+        <mdHeaderMenu/>
+        <div class="md-header-title">
+            md-header-title
+        </div>
+        <div class="win-controll-warp">
+            <winControll/>
+        </div>
     </div>
 </template>
 <script>
-import {openMdFile} from "@/utils/mdTools"
+import {mapMutations} from "vuex"
+import mdHeaderMenu from "@/components/mdHeaderMenu"
+import winControll from "@/components/winControll"
 export default {
-    props:{
-        value:{
-            typt:Boolean,
-            default:true
-        }
-    },
-    methods:{
-        openMdFile(){
-            openMdFile()
-        }
+    components:{
+        mdHeaderMenu,
+        winControll
     }
 }
 </script>
@@ -41,17 +31,26 @@ export default {
         background: #ececec;
         -webkit-user-select: none;
         -webkit-app-region: drag;
-        
-        .md-header-button-group{
-            display: flex;
-            .header-button{
-                padding: 0 8px;
-                -webkit-app-region: no-drag;
-                cursor: pointer;
-                &:hover{
-                    background: #ccc;
-                }
+        display: flex;
+        padding-right: 130px;
+        .brand-ico{
+            width: 50px;
+            text-align: center;
+            padding: 5px;
+            img{
+                width: 24px;
             }
+        }
+        .md-header-title{
+            font-size: 14px;
+            max-width: 360px;
+            padding: 0 15px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .win-controll-warp{
+            position: absolute;
+            right: 0px;
         }
     }
 </style>

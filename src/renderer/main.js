@@ -20,8 +20,12 @@ Vue.use(iView, {
   transfer: true,
   size: 'large'
 })
-const {ipcRenderer:ipc} = require('electron')
+const {ipcRenderer:ipc,remote} = require('electron')
 Vue.prototype.$ipc=ipc
+Vue.prototype.$remote=remote
+
+
+Vue.prototype.$bus=new Vue()
 
 /* eslint-disable no-new */
 new Vue({
