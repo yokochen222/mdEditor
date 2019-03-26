@@ -1,29 +1,29 @@
 <template>
-    <b-form class="md-form-login">
+    <Form class="md-form-login">
         <div class="brand">
             <h3>MD-EDITOR</h3>
         </div>
         <div class="form-item">
             <label for="ACCESS_KEY">ACCESS_KEY</label>
-            <b-input  id="ACCESS_KEY" v-model="forms.ACCESS_KEY"/>
+            <Input  id="ACCESS_KEY" v-model="forms.ACCESS_KEY"/>
         </div>
         <div class="form-item">
             <label for="SECRET_KEY">SECRET_KEY</label>
-            <b-input id="SECRET_KEY" v-model="forms.SECRET_KEY"/>
+            <Input id="SECRET_KEY" v-model="forms.SECRET_KEY"/>
         </div>
         <div class="form-item">
             <label for="SECRET_KEY">DOMAIN</label>
-            <b-input id="SECRET_KEY" v-model="forms.DOMAIN"/>
+            <Input id="SECRET_KEY" v-model="forms.DOMAIN"/>
         </div>
         <div class="form-item">
-            <b-form-checkbox >Remember</b-form-checkbox>
+            <checkbox >Remember</checkbox>
         </div>
-        <b-button variant="primary" block :disabled="disabled" @click="SET_UPLOAD_OPTIONS">START</b-button>
+        <Button variant="primary" block :disabled="disabled" @click="SET_UPLOAD_OPTIONS">START</Button>
         <div class="label-tips">
             设置七牛云对象存储，在MD文件中上传图片、附件等将上传至您所填写的对象存储中，如无需上传图片等文件请点击：
             <span>直接进入编辑器</span>
         </div>
-  </b-form>
+  </Form>
 </template>
 <script>
 import cookie from "js-cookie"

@@ -6,8 +6,11 @@
                 <sourceManager/>
             </div>
             <div class="main-view">
-                <win-tab/>
-                <router-view></router-view>
+                <winTab/>
+                <keep-alive>
+                    <router-view v-if="$route.meta.keepAlive"></router-view>
+                </keep-alive>
+                <router-view v-if="!$route.meta.keepAlive"></router-view>
             </div>
         </div>
     </div>
@@ -43,7 +46,7 @@
             }
             .main-view{
                 position: absolute;
-                top:@header-height;
+                top:@header-height + 4px;
                 bottom: 0;
                 left: @source-manager-width;
                 right: 0;

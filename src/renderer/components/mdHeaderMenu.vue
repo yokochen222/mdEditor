@@ -10,11 +10,11 @@
             >
                 <div class="header-button">文件</div>
                 <ol slot="content" class="header-button-content">
-                    <dl class="header-list-button">
+                    <dl class="header-list-button" @click="saveNewDoc">
                         <span>新建文件</span>
                         <strong>Ctrl + O</strong>
                     </dl>
-                    <dl class="header-list-button">
+                    <dl class="header-list-button" @click="pickMDfile">
                         <span>打开文件</span>
                         <strong>Ctrl + N</strong>
                     </dl>
@@ -49,7 +49,7 @@
                     <dl class="header-list-button">
                         <span>使用文档</span>
                     </dl>
-                    <dl class="header-list-button">
+                    <dl class="header-list-button"  @click="jump('/login')">
                         <span>存储设置</span>
                     </dl>
                 </ol>
@@ -58,6 +58,40 @@
         </li>
     </ul>
 </template>
+<script>
+import {pickMDfile,saveNewDoc} from "@/utils/NotePad"
+export default {
+    methods:{
+        pickMDfile(){
+            pickMDfile().then((res)=>{
+			    console.log(res)
+
+                this.$router.push({
+                    path:"/editor",
+                    query:{
+                        fileName:res.fullName,
+                        path:res.path
+                    }
+                })
+            })
+        },
+        saveNewDoc(){
+            saveNewDoc().then((res)=>{
+                this.$router.push({
+                    path:"/editor",
+                    query:{
+                        fileName:res.fullName,
+                        path:res.path
+                    }
+                })
+            })
+        },
+        jump(path){
+            this.$router.push(path)
+        }
+    }
+}
+</script>
 <style lang="less" scoped>
 .md-header-button-group{
     display: flex;

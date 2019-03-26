@@ -1,17 +1,21 @@
 <template>
-	<div class="md-body">
-		<MarkdownItVue :content="editorContent"/>
+	<div class="md-body scroll">
+		<MarkdownItVue :content="value"/>
 	</div>
 </template>
 <script>
 import MarkdownItVue from 'markdown-it-vue'
-import {mapGetters} from "vuex"
 export default {
+	props:{
+		value:{
+			type:String,
+			default(){
+				return {}
+			}
+		}
+	},
 	components:{
 		MarkdownItVue
-	},
-	computed:{
-		...mapGetters("Editor",["editorContent"])
 	}
 }
 </script>

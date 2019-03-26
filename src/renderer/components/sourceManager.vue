@@ -49,7 +49,7 @@ export default {
 <style lang="less" scoped>
     .md-source-manager{
         .md-title{
-            padding:9px 15px;
+            padding:7px 15px;
             border-bottom: 1px solid #eee;
         }
         .source-tree{

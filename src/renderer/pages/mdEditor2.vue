@@ -5,10 +5,10 @@
 		</div>
 		<div :class="['md-editor-container',{'preview':preview}]">
 			<div class="md-layout-item editor-main ">
-				<editor @save="saveContent" v-model="content"/>
+				<editor />
 			</div>
 			<div class="md-layout-item preview-warp scroll">
-				<mdPreview v-model="content"/>
+				<mdPreview />
 			</div>
 		</div>
 	</div>
@@ -18,60 +18,14 @@ import toolBar from "@/components/toolBar"
 import editor from "@/components/editor"
 import mdPreview from "@/components/mdPreview"
 import {mapGetters} from "vuex"
-import {readText,saveText,saveNewDoc} from "@/utils/NotePad"
-
 export default {
 	components:{
 		toolBar,
 		editor,
 		mdPreview
 	},
-	data(){
-		return {
-			content:""
-		}
-	},
-	watch: {
-		$route(){
-			this.getQuerys()
-		}
-	},
 	computed:{
 		...mapGetters("Editor",["preview"])
-	},
-	methods:{
-		getQuerys(){
-			const path=this.$route.query.path
-			const fileName=this.$route.query.fileName
-			if(path&&fileName){
-				this.content=readText(path)
-			}
-		},
-		saveContent(){
-			if(this.$route.query.path&&this.$route.query.fileName){
-				this.$Notice.destroy()
-				saveText(this.content,this.$route.query.path).then(()=>{
-					this.$Notice.success({
-						title:"系统提示",
-						duration: 1,
-						desc:"文件保存成功！"
-					})
-				})
-			}else{
-				saveNewDoc().then((res)=>{
-					this.$router.push({
-						path:"/editor",
-						query:{
-							fileName:res.fullName,
-							path:res.path
-						}
-					})
-				})
-			}
-		}
-	},
-	mounted(){
-		this.getQuerys()
 	}
 }
 </script>
@@ -82,7 +36,7 @@ export default {
 		.md-editor-container{
 			display: flex;
 			position: absolute;
-			top:@tool-height + 32px;
+			top:@tool-height + 40px;
 			bottom: 0;
 			left: 0;
 			right: 0;

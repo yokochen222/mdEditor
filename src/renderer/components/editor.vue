@@ -1,5 +1,5 @@
 <template>
-	<codemirror ref="mirror" :value="editorContent"  :options="options" @change="inputText"/>
+	<codemirror ref="mirror" :value="value"  :options="options" @change="inputText"/>
 </template>
 <script>
 
@@ -24,6 +24,7 @@ require('codemirror/keymap/sublime.js')
 import uploader from "@/utils/upload"
 
 import {mapMutations,mapGetters} from "vuex"
+
 export default({
 	props:{
 		value:{
@@ -32,7 +33,6 @@ export default({
 		}
 	},
 	computed:{
-		...mapGetters("Editor",["editorContent"]),
 		options(){
 			return {
 				mode:"markdown",
@@ -43,7 +43,11 @@ export default({
 				foldGutter:true,
 				matchBrackets:true,
 				// extraKeys: { "Tab": "autocomplete" },
-				// extraKeys: {'Ctrl-Space':'autocomplete'},
+				extraKeys: {
+					'Ctrl-S':()=>{
+						this.$emit("save")
+					}
+				},
 				gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
 				height:5000,
 				keyMap:"sublime"
@@ -59,7 +63,8 @@ export default({
 	methods: {
 		...mapMutations("Editor",["setEditorContent"]),
 		inputText(data){
-			this.setEditorContent(data)
+			this.$emit("input",data)
+			// this.setEditorContent(data)
 		},
 		// 实现文件拖拽上传
 		async handleDrop(e){
@@ -67,20 +72,21 @@ export default({
 			e.stopPropagation()
 			const file=e.dataTransfer.files[0]
 			if((file.name.split('.').pop().toLowerCase())=="md"){
-				console.log("md file")
+				console.log(e)
 			}else{
 				const res=await uploader(e.dataTransfer.files[0])
-				this.insertImg(res.fileUrl)
+				this.insertImg(res.fileInfo.fileName,res.fileUrl)
 			}
 		},
 		insertContent(datas){
 			this.editor.replaceSelection(datas)
 		},
-		insertImg(url){
-			let img=`![alt](${url})\r\n`
+		insertImg(names,url){
+			const img=`![${names}](${url})\r\n`
 			this.editor.replaceSelection(img)
 		}
 	},
+
 	mounted() {
 		window.addEventListener("drop",this.handleDrop)
 		this.$bus.$on("insert",this.insertContent)

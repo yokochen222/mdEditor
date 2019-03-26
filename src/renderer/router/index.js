@@ -7,16 +7,28 @@ const router= new Router({
     routes: [
         {
             path:'/',
-            redirect:"/editor"
+            redirect:"/editor",
+            meta:{
+                title:"MDEDITOR",
+                keepAlive:false
+            }
         },
         {
             path: '/editor',
             name: 'md-editor',
+            meta:{
+                title:"MDEDITOR",
+                keepAlive:true
+            },
             component: require('@/pages/mdEditor').default
         },
         {
-            path:"/login",
-            name:"md-login",
+            path: '/login',
+            name: 'md-login',
+            meta:{
+                title:"MDEDITOR-LOGIN",
+                keepAlive:false
+            },
             component: require('@/pages/mdLogin').default
         },
         {
@@ -27,14 +39,16 @@ const router= new Router({
 })
 
 
-const {ipcRenderer:ipc} = require('electron')
-
+import store from "@/store"
 router.beforeEach((to,from,next)=>{
-    // if(to.name=='md-login'){
-    //     ipc.send("changeWindow","login")
-    // }else{
-    //     ipc.send("changeWindow","default")
-    // }
+   
+    if(to.path=="/editor"){
+        store.commit("Editor/addOpenedRoutes",{
+            path:to.fullPath,
+            query:to.query,
+            title:to.query.fileName||"Untitled"
+        })
+    }
     next()
 })
 

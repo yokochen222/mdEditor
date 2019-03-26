@@ -1,6 +1,5 @@
 import {POSTUPLOAD} from "@/utils/HTTP"
 import MAKEQNTOKEN from "./QNToken"
-import {Spin} from "iview"
 /* 
 * @param {string} accessKey -七牛云AK
 * @param {string} secretKey -七牛云SK
@@ -12,7 +11,7 @@ const QiNiu={
 	accessKey:"So7uoio8dGyxMh6iRlhVc6S2ux9ndlJ7D2YNxx10", 
 	secretKey:"ZtedET6qDy2FDszpKD1yiXj9ESlWpSjlL00HAAR6", 
 	scope:"mdeditor",
-	domain:"http://img.yqchen.cn",//yqchen.cn
+	domain:"http://storage.yqchen.cn",//storage.yqchen.cn
 	QNurl:"http://up.qiniu.com"
 }
 
@@ -25,7 +24,7 @@ function Uploader(files){
 
 			const fileInfo=GetFileInfo(files)
 
-			Spin.show()
+			
 			POSTUPLOAD(QiNiu.QNurl,data,{
 				headers:{'Content-Type':'multipart/form-data'},
 				withCredentials:false
@@ -42,7 +41,6 @@ function Uploader(files){
 				}else{
 					console.log(res)
 				}
-				Spin.hide()
 			}).catch((e)=>{
 				reject(e)
 			})

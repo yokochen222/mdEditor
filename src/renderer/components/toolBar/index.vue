@@ -1,18 +1,30 @@
 <template>
 	<div class="tool-bar">
-		<upload/>
+		<images/>
+		<annex/>
+		<links/>
+		<tables/>
+		<dates/>
 		<preview/>
 	</div>
 </template>
 <script>
 import {mapMutations,mapGetters} from "vuex"
 import preview from "./preview"
-import upload from "./upload"
+import images from "./images"
+import links from "./link"
+import annex from "./annex"
+import tables from "./table"
+import dates from "./date"
 
 export default {
 	components:{
-		upload,
-		preview
+		images,
+		preview,
+		links,
+		tables,
+		annex,
+		dates
 	}
 }
 </script>

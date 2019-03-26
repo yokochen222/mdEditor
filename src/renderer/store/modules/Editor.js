@@ -1,28 +1,60 @@
 const state = {
     preview:false,
-    editorContent:""
+    editorContent:"",
+    openedRoutes:[],
+    openedFiles:[
+        // {
+        //     fileName:"",
+        //     path:"",
+        //     save:false
+        // }
+    ]
 }
 
 const getters={
     preview:(state)=>state.preview,
-    editorContent:(state)=>state.editorContent
+    editorContent:(state)=>state.editorContent,
+    openedRoutes:(state)=>state.openedRoutes,
+    openedFiles:(state)=>state.openedFiles
 }
+
+const {ipcRenderer:ipc} = require('electron')
+import router from "@/router"
 
 const mutations = {
     changePreview(state){
         state.preview=!state.preview
     },
-    setEditorContent(state,data){
-        state.editorContent=data
-    },
-    insertImg(state,{url,alt}){
-        let img=`![${alt}](${url})`
-        if(state.editorContent){
-            img=state.editorContent+"\n"+img
+    addOpenedRoutes(state,data){
+        const res=state.openedRoutes.some(item=>{
+            if(item.path==data.path)return true
+        })
+        if(!res){
+            state.openedRoutes.push(data)
         }
-        state.editorContent=img
+    },
+    removeOpenRoutes(state,index){
+        state.openedRoutes.splice(index,1)
+        if(state.openedRoutes.length>0){
+            if((index-1)>-1){
+                router.push({
+                    path:"/editor",
+                    query:state.openedRoutes[index-1].query
+                })
+            }else{
+                router.push({
+                    path:"/editor"
+                })
+            }
+        }
+    },
+    addOpenedFiles(state,path){
+        
     }
 }
+
+
+
 
 const actions = {
    

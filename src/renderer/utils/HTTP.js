@@ -78,6 +78,7 @@ export function POST(url,data = {}){
 	})
 }
 
+import {Spin,Notice} from "iview"
 
 /**
  * 封装POSTUPLOAD请求
@@ -85,13 +86,20 @@ export function POST(url,data = {}){
  * @param data
  * @returns {Promise}
  */
-
 export function POSTUPLOAD(url,data = {},config = {}){
+	Spin.show()
 	return new Promise((resolve,reject) => {
 		axios.post(url,data,config)
 			.then(response => {
+				Spin.hide()
 				resolve(response.data)
+
 			},err => {
+				Spin.hide()
+				Notice.error({
+					title:"上传出错",
+					desc:err
+				})
 				reject(err)
 			})
 	})

@@ -20,7 +20,7 @@ export default {
 				console.log("md file")
 			}else{
                 const res=await uploader(file)
-                this.$bus.$emit("insertImg",res.fileUrl)
+                this.$bus.$emit("insertImg",res.fileInfo.fileName,res.fileUrl)
 			}
         }
     }

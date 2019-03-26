@@ -90,7 +90,6 @@ const iconv=require("iconv-lite")
  * }
  */
 ipcMain.on("open-markdown-file",(event)=>{
-    console.log(fs)
     dialog.showOpenDialog({
         title:"选择Markdown文件",
         filters:[
@@ -104,7 +103,12 @@ ipcMain.on("open-markdown-file",(event)=>{
         }
     })
 })
+// C:\Users\chenyuqiao\Desktop\image-host-master\README.md
 
+ipcMain.on("open-markdow-file-in-url",(event,path)=>{
+    const markdown=fs.readFileSync(path)
+    event.sender.send("opened-markdown-file",markdown)
+})
 
 
 /**
