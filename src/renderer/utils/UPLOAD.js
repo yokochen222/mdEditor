@@ -7,15 +7,28 @@ import MAKEQNTOKEN from "./QNToken"
 * @param {string} domain -七牛云默认外链域名,(可选参数) 
 * @param {string} QNurl -七牛上传接口地址
 */
-const QiNiu={
-	accessKey:"So7uoio8dGyxMh6iRlhVc6S2ux9ndlJ7D2YNxx10", 
-	secretKey:"ZtedET6qDy2FDszpKD1yiXj9ESlWpSjlL00HAAR6", 
-	scope:"mdeditor",
-	domain:"http://storage.yqchen.cn",//storage.yqchen.cn
-	QNurl:"http://up.qiniu.com"
-}
+
+
+
 
 function Uploader(files){
+
+
+		
+	const QINIU_ACCESS_KEY=window.localStorage.getItem("QINIU_ACCESS_KEY")
+	const QINIU_SECRET_KEY=window.localStorage.getItem("QINIU_SECRET_KEY")
+	const QINIU_DOMAIN=window.localStorage.getItem("QINIU_DOMAIN")
+	const QINIU_BUCKET_NAME=window.localStorage.getItem("QINIU_BUCKET_NAME")
+
+	const QiNiu={
+		accessKey:QINIU_ACCESS_KEY||"", 
+		secretKey:QINIU_SECRET_KEY||"", 
+		scope:QINIU_BUCKET_NAME,
+		domain:QINIU_DOMAIN||"",//storage.yqchen.cn
+		QNurl:"http://up.qiniu.com"
+	}
+
+
 	return new Promise((resolve,reject)=>{
 		let data = new FormData()
 			data.append('token', MAKEQNTOKEN(QiNiu.accessKey,QiNiu.secretKey,QiNiu.scope))

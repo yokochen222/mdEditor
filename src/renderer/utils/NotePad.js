@@ -59,7 +59,7 @@ function saveText(text, file){
     })
 }
 //保存当前文档
-function saveNewDoc(){
+function saveNewDoc(content){
     return new Promise((resolve,reject)=>{
         const file = remote.dialog.showSaveDialog(remote.getCurrentWindow(), {
             filters: [
@@ -67,9 +67,19 @@ function saveNewDoc(){
             ]
         });
         if(file){
-            resolve({
-                ...getFilePathInfo(file)
-            })
+            if(content){
+                saveText(content,file).then((res)=>{
+                    resolve({
+                        ...getFilePathInfo(file)
+                    })
+                }).catch((err)=>{
+                    reject(err)
+                })
+            }else{
+                resolve({
+                    ...getFilePathInfo(file)
+                })
+            }
         }
     })
 }
@@ -79,5 +89,6 @@ export {
     pickMDfile,
     readText,
     saveText,
-    saveNewDoc
+    saveNewDoc,
+    getFilePathInfo
 }

@@ -5,10 +5,10 @@
 		</div>
 		<div :class="['md-editor-container',{'preview':preview}]">
 			<div class="md-layout-item editor-main ">
-				<editor />
+				<editor @save="saveContent" v-model="content"/>
 			</div>
 			<div class="md-layout-item preview-warp scroll">
-				<mdPreview />
+				<mdPreview v-model="content"/>
 			</div>
 		</div>
 	</div>
@@ -18,14 +18,32 @@ import toolBar from "@/components/toolBar"
 import editor from "@/components/editor"
 import mdPreview from "@/components/mdPreview"
 import {mapGetters} from "vuex"
+import {readText,saveText,saveNewDoc} from "@/utils/NotePad"
+
 export default {
 	components:{
 		toolBar,
 		editor,
 		mdPreview
 	},
+	data(){
+		return {
+			content:""
+		}
+	},
 	computed:{
 		...mapGetters("Editor",["preview"])
+	},
+	methods:{
+		getQuerys(){
+			this.content=readText(path)
+		},
+		saveContent(){
+			
+		}
+	},
+	mounted(){
+		
 	}
 }
 </script>
@@ -36,7 +54,7 @@ export default {
 		.md-editor-container{
 			display: flex;
 			position: absolute;
-			top:@tool-height + 40px;
+			top:@tool-height + 32px;
 			bottom: 0;
 			left: 0;
 			right: 0;

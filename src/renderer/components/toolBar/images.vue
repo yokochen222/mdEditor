@@ -1,6 +1,6 @@
 <template>
     <div class="tool-item upload" title="插入图片">
-        <input  id="uploader" @change="selectFile" type="file" class="upload-input">
+        <input  id="uploader" @change="selectFile" type="file" accept="image/*" class="upload-input">
         <label for="uploader">
             <i class='iconfont icon-tupian'></i>
         </label>

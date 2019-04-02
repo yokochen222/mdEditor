@@ -5,20 +5,28 @@
 		</div>
 		<div :class="['md-editor-container',{'preview':preview}]">
 			<div class="md-layout-item editor-main ">
-				<editor @save="saveContent" v-model="content"/>
+				<editor 
+					@save="saveContent"
+					v-model="content"
+					@changePreview="setPreview"
+				/>
 			</div>
 			<div class="md-layout-item preview-warp scroll">
 				<mdPreview v-model="content"/>
 			</div>
 		</div>
+		<div class="md-file-info" v-text="path"></div>
+		
 	</div>
 </template>
 <script>
 import toolBar from "@/components/toolBar"
 import editor from "@/components/editor"
 import mdPreview from "@/components/mdPreview"
-import {mapGetters} from "vuex"
-import {readText,saveText,saveNewDoc} from "@/utils/NotePad"
+
+
+import {mapGetters,mapMutations} from "vuex"
+import {readText,saveText,saveNewDoc,pickMDfile} from "@/utils/NotePad"
 
 export default {
 	components:{
@@ -37,14 +45,36 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters("Editor",["preview"])
+		...mapGetters("Editor",["preview"]),
+		path(){
+			return this.$route.query.path
+		}
 	},
 	methods:{
+		...mapMutations("Editor",["changeTitle","changePreview"]),
 		getQuerys(){
 			const path=this.$route.query.path
 			const fileName=this.$route.query.fileName
 			if(path&&fileName){
+
+				this.changeTitle(path)
+
+				this.$Spin.show({
+                    render: (h) => {
+                        return h('div', [
+                            h('Icon', {
+                                'class': 'demo-spin-icon-load',
+                                props: {
+                                    type: 'ios-loading',
+                                    size: 18
+                                }
+                            }),
+                            h('div', 'Loading')
+                        ])
+                    }
+                });
 				this.content=readText(path)
+				this.$Spin.hide();
 			}
 		},
 		saveContent(){
@@ -58,32 +88,44 @@ export default {
 					})
 				})
 			}else{
-				saveNewDoc().then((res)=>{
-					this.$router.push({
-						path:"/editor",
-						query:{
-							fileName:res.fullName,
-							path:res.path
-						}
-					})
-				})
+				this.saveNewDoc()
 			}
+		},
+		saveNewDoc(){
+			saveNewDoc(this.content).then((res)=>{
+				this.$router.push({
+					path:"/editor",
+					query:{
+						fileName:res.fullName,
+						path:res.path
+					}
+				})
+			})
+		},
+		setPreview(){
+			this.changePreview()
 		}
 	},
 	mounted(){
+		this.changeTitle("")
 		this.getQuerys()
+		this.$bus.$on("saveContent",this.saveContent)
+	},
+	beforeDestroy(){
+		this.$bus.$off("saveContent",this.saveContent)
 	}
 }
 </script>
 
 <style lang="less" scoped>
 	@tool-height:39px;
+	@md-file-info-height:24px;
 	.md-editor-main{
 		.md-editor-container{
 			display: flex;
 			position: absolute;
-			top:@tool-height + 32px;
-			bottom: 0;
+			top:@tool-height + 30px;
+			bottom: @md-file-info-height;
 			left: 0;
 			right: 0;
 			overflow: hidden;
@@ -108,6 +150,20 @@ export default {
 			.preview-warp{
 				display: none;
 			}
+		}
+		.md-file-info{
+			height: @md-file-info-height;
+			line-height: @md-file-info-height;
+			background: #ececec;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			overflow: hidden;
+			padding: 0 5px;
+			user-select: none;
+			color: #aaa;
+			cursor: default;
 		}
 	}
 </style>

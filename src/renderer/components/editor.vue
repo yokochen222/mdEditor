@@ -1,8 +1,13 @@
 <template>
-	<codemirror ref="mirror" :value="value"  :options="options" @change="inputText"/>
+	<codemirror ref="mirror" 
+		@paste.native.prevent="pasteUpload" 
+		@drop.native.prevent="handleDrop"
+		:value="value"
+		:options="options" 
+		@change="inputText"
+	/>
 </template>
 <script>
-
 // <!-- CodeMirror支持不同语言，根据需要引入JS文件 -->
 // <!-- 因为HTML混合语言依赖Javascript、XML、CSS语言支持，所以都要引入 -->
 require("codemirror/mode/javascript/javascript.js")
@@ -41,11 +46,21 @@ export default({
 				lineNumbers: true,
 				lineWrapping: true,
 				foldGutter:true,
+				autofocus:true,
 				matchBrackets:true,
 				// extraKeys: { "Tab": "autocomplete" },
 				extraKeys: {
 					'Ctrl-S':()=>{
 						this.$emit("save")
+					},
+					'Ctrl-O':()=>{
+						this.$emit("openFile")
+					},
+					'Ctrl-N':()=>{
+						this.$emit("newFile")
+					},
+					'Ctrl-P':()=>{
+						this.$emit("changePreview")
 					}
 				},
 				gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
@@ -61,10 +76,8 @@ export default({
 		return {}
 	},
 	methods: {
-		...mapMutations("Editor",["setEditorContent"]),
 		inputText(data){
 			this.$emit("input",data)
-			// this.setEditorContent(data)
 		},
 		// 实现文件拖拽上传
 		async handleDrop(e){
@@ -72,11 +85,9 @@ export default({
 			e.stopPropagation()
 			const file=e.dataTransfer.files[0]
 			if((file.name.split('.').pop().toLowerCase())=="md"){
-				console.log(e)
-			}else{
-				const res=await uploader(e.dataTransfer.files[0])
-				this.insertImg(res.fileInfo.fileName,res.fileUrl)
+				return
 			}
+			this.uploads(file)
 		},
 		insertContent(datas){
 			this.editor.replaceSelection(datas)
@@ -84,20 +95,53 @@ export default({
 		insertImg(names,url){
 			const img=`![${names}](${url})\r\n`
 			this.editor.replaceSelection(img)
+		},
+		async uploads(file){
+			const res=await uploader(file)
+				if(res.fileInfo.isImage){
+					this.insertImg(res.fileInfo.fileName,res.fileUrl)
+				}else{
+					this.insertContent(`附件：[${res.fileInfo.fileName}](${res.fileUrl})`)
+				}
+		},
+		pasteUpload(e){
+			var cbd = e.clipboardData;
+			var ua = window.navigator.userAgent;
+
+			// 如果是 Safari 直接 return
+			if ( !(e.clipboardData && e.clipboardData.items) ) {
+				return;
+			}
+			
+			// Mac平台下Chrome49版本以下 复制Finder中的文件的Bug Hack掉
+			if(cbd.items && cbd.items.length === 2 && cbd.items[0].kind === "string" && cbd.items[1].kind === "file" &&
+				cbd.types && cbd.types.length === 2 && cbd.types[0] === "text/plain" && cbd.types[1] === "Files" &&
+				ua.match(/Macintosh/i) && Number(ua.match(/Chrome\/(\d{2})/i)[1]) < 49){
+				return;
+			}
+
+			for(var i = 0; i < cbd.items.length; i++) {
+				var item = cbd.items[i];
+				if(item.kind == "file"){
+					var blob = item.getAsFile();
+					if (blob.size === 0) {
+						return;
+					}
+					this.uploads(blob)
+					// blob 就是从剪切板获得的文件 可以进行上传或其他操作
+				}
+			}
 		}
 	},
 
 	mounted() {
-		window.addEventListener("drop",this.handleDrop)
+		// window.addEventListener("drop",this.handleDrop)
 		this.$bus.$on("insert",this.insertContent)
 		this.$bus.$on("insertImg",this.insertImg)
 	},
 	beforeDestroy() {
-		window.removeEventListener("drop",this.handleDrop)
+		// window.removeEventListener("drop",this.handleDrop)
 		this.$bus.$off("insert",this.insertContent)
 	}
 })
 </script>
-<style lang="less" scoped>
-	
-</style>

@@ -1,8 +1,8 @@
 <template>
     <div class="md-win-controll">
         <i @click="sendWinEvents('hide')" class="iconfont icon-minimum"></i>
-        <i @click="sendWinEvents('max')" class="iconfont icon-zhifangkuang" v-if="!full"></i>
-        <i @click="sendWinEvents('min')" class="iconfont icon-zuidahua" v-else></i>
+        <!-- <i @click="sendWinEvents('max')" class="iconfont icon-zhifangkuang" v-if="!full"></i>
+        <i @click="sendWinEvents('min')" class="iconfont icon-zuidahua" v-else></i> -->
         <i @click="sendWinEvents('close')" class="iconfont icon-baseline-close-px"></i>
     </div>
 </template>

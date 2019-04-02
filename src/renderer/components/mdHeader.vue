@@ -4,22 +4,30 @@
             <img src="@/assets/img/brand.svg"/>
         </div>
         <mdHeaderMenu/>
-        <div class="md-header-title">
-            md-header-title
-        </div>
+        <div class="md-header-title" v-text="titles" :title="title"></div>
         <div class="win-controll-warp">
             <winControll/>
         </div>
     </div>
 </template>
 <script>
-import {mapMutations} from "vuex"
+import {mapGetters} from "vuex"
 import mdHeaderMenu from "@/components/mdHeaderMenu"
 import winControll from "@/components/winControll"
+import {getFilePathInfo} from "@/utils/NotePad"
 export default {
     components:{
         mdHeaderMenu,
         winControll
+    },
+    computed:{
+        ...mapGetters("Editor",["title"]),
+        titles(){
+            if(this.title){
+                return  getFilePathInfo(this.title).fullName +" - mdEditor"
+            }
+            return "mdEditor"
+        }
     }
 }
 </script>

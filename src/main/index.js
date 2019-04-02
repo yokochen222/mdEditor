@@ -22,7 +22,9 @@ function createWindow () {
      */
     mainWindow = new BrowserWindow({
         width: 940,
+        minWidth:640,
         height: 630,
+        minHeight:630,
         useContentSize: true,
         frame:false,
         titleBarStyle: 'hidden',
@@ -70,44 +72,14 @@ ipcMain.on("changeWindow",(event,type)=>{
             break
         }
         case "close":{
-            mainWindow.minimize()
-            mainWindow.center()
+            mainWindow.close()
+            break
+        }
+        case "reload":{
+            mainWindow.reload()
             break
         }
     }
-})
-
-
-const iconv=require("iconv-lite")
-
-// 打开文件/文件夹
-/**
- * options:{
- *  callBack:function回调函数,
- *  title:"打开文件窗体标题",
- *  filters:[{name:'文件类型名称',extensions:'文件后缀'}],
- *  properties:[''],//penFile, openDirectory, multiSelections and createDirectory
- * }
- */
-ipcMain.on("open-markdown-file",(event)=>{
-    dialog.showOpenDialog({
-        title:"选择Markdown文件",
-        filters:[
-            { name: 'Markdown', extensions: ['md']},
-        ],
-        properties:['openFile'] //['openFile','openDirectory']
-    },(files)=>{
-        if(files){
-            const markdown=fs.readFileSync(files[0])
-            event.sender.send("selected-markdown-file",{path:files,content:iconv.decode(markdown,"utf8")})
-        }
-    })
-})
-// C:\Users\chenyuqiao\Desktop\image-host-master\README.md
-
-ipcMain.on("open-markdow-file-in-url",(event,path)=>{
-    const markdown=fs.readFileSync(path)
-    event.sender.send("opened-markdown-file",markdown)
 })
 
 

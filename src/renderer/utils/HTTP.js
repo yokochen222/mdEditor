@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 8000
 axios.defaults.baseURL =''
 
 
@@ -98,9 +98,9 @@ export function POSTUPLOAD(url,data = {},config = {}){
 				Spin.hide()
 				Notice.error({
 					title:"上传出错",
-					desc:err
+					desc:`请点击设置-存储设置，检查七牛云存储是否配置正确：<br/>${err}`
 				})
-				reject(err)
+				// reject(err)
 			})
 	})
 }

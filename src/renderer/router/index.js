@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import {LoadingBar} from "iview"
 Vue.use(Router)
 
 const router= new Router({
@@ -8,28 +8,11 @@ const router= new Router({
         {
             path:'/',
             redirect:"/editor",
-            meta:{
-                title:"MDEDITOR",
-                keepAlive:false
-            }
         },
         {
             path: '/editor',
             name: 'md-editor',
-            meta:{
-                title:"MDEDITOR",
-                keepAlive:true
-            },
-            component: require('@/pages/mdEditor').default
-        },
-        {
-            path: '/login',
-            name: 'md-login',
-            meta:{
-                title:"MDEDITOR-LOGIN",
-                keepAlive:false
-            },
-            component: require('@/pages/mdLogin').default
+            component:(resolve) => require(['@/pages/mdEditor'], resolve)
         },
         {
             path: '*',
@@ -39,19 +22,13 @@ const router= new Router({
 })
 
 
-import store from "@/store"
 router.beforeEach((to,from,next)=>{
-   
-    if(to.path=="/editor"){
-        store.commit("Editor/addOpenedRoutes",{
-            path:to.fullPath,
-            query:to.query,
-            title:to.query.fileName||"Untitled"
-        })
-    }
+    LoadingBar.start()
     next()
 })
-
+router.afterEach((to,from)=>{
+    LoadingBar.finish()
+})
 
 export default router
 
