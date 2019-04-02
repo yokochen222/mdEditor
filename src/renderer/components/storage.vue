@@ -1,6 +1,11 @@
 <template>
     <div class="md-editor-storage">
         <div class="scroll">
+            <div class="refresh">
+                <Button :disabled="disabled" @click="refresh" type="primary" title="刷新仓库">
+                    <i class="iconfont icon-refresh"></i>
+                </Button>
+            </div>
             <Row :gutter="15">
                 <Col 
                     :xs="24" 
@@ -9,7 +14,7 @@
                     :lg="6" 
                     :xl="4" 
                     v-for="(file,idx) in datas"
-                    :key="file.hash"
+                    :key="idx"
                 >
                     <div class="file-item">
                         <div class="thumb">
@@ -61,6 +66,7 @@ export default {
             datas:[],
             next:"",
             limit:16,
+            disabled:false,
             tips:"加载更多"
         }
     },
@@ -123,13 +129,21 @@ export default {
                 })
             })
         },
+        refresh(){
+            this.datas=[]
+            this.fetchList()
+        },
         fetchList(){
+            this.disabled=true
             this.tips="加载中..."
             getFileList(this.limit,this.next).then((res)=>{
                 this.datas.push(...res.datas)
                 this.next=res.nextMarker
                 this.tips="加载更多"
+                this.disabled=false
+
             }).catch((e)=>{
+                this.disabled=false
                 this.$Notice.error({
                     title:"系统提示",
                     desc:"文件加载失败请检查是否配置七牛云上传：<br/>"+e
@@ -144,6 +158,13 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+    .refresh{
+        padding-bottom: 15px;
+        position: fixed;
+        z-index: 1000;
+        right: 30px;
+        bottom: 30px;
+    }
     .md-editor-storage{
         overflow: auto;
         box-sizing: content-box;
