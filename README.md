@@ -2,20 +2,7 @@
 
 > markdown文本编辑器
 
-#### Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:9080
-npm run dev
-
-# build electron application for production
-npm run build
-
-
-```
+windows 开发体验版：[http://storage.yqchen.cn/mdeditor%20Setup%200.0.1.exe](http://storage.yqchen.cn/mdeditor%20Setup%200.0.1.exe)
 
 ---
 
