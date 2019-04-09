@@ -2,8 +2,11 @@
 
 > markdown文本编辑器
 
-windows 开发体验版：[http://storage.yqchen.cn/mdeditor%20Setup%200.0.1.exe](http://storage.yqchen.cn/mdeditor%20Setup%200.0.1.exe)
+> windows 开发体验版：[http://storage.yqchen.cn/mdeditor%20Setup%200.0.1.exe](http://storage.yqchen.cn/mdeditor%20Setup%200.0.1.exe)
 
+
+> mac os 开发体验版
+>[http://storage.yqchen.cn/mdeditor-0.0.1.dmg](http://storage.yqchen.cn/mdeditor-0.0.1.dmg)
 ---
 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
