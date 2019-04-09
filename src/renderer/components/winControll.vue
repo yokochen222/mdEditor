@@ -25,12 +25,6 @@ export default {
         sendWinEvents(type){
             this.$ipc.send("changeWindow",type)
         }
-    },
-    mounted(){
-        this.$ipc.on("changedWindow",(events,data)=>{
-            console.log(data)
-        })
-        
     }
 }
 </script>

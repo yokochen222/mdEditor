@@ -1,6 +1,7 @@
 import { Menu,app, BrowserWindow,ipcMain,dialog} from 'electron'
 
-const fs = require("fs")
+
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -53,6 +54,16 @@ app.on('activate', () => {
     }
 })
 
+app.on("open-file",(e)=>{
+    console.log(123456)
+    console.log(123456)
+    console.log(process.argv)
+})
+
+app.on("open-url",(e)=>{
+    console.log("open url")
+    e.preventDefault()
+})
 
 ipcMain.on("changeWindow",(event,type)=>{
     switch(type){
