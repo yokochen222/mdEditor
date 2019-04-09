@@ -35,6 +35,49 @@ function createWindow () {
 
     mainWindow.loadURL(winURL)
 
+    //mac 环境需要添加下面的复制粘贴等代码
+    // if (process.platform === 'darwin') { 
+    //     template.unshift({
+    //         label: 'Edit',
+    //         submenu: [
+    //         { role: 'undo' },
+    //         { role: 'redo' },
+    //         { type: 'separator' },
+    //         { role: 'cut' },
+    //         { role: 'copy' },
+    //         { role: 'paste' },
+    //         { role: 'pasteandmatchstyle' },
+    //         { role: 'delete' },
+    //         { role: 'selectall' }
+    //         ]
+    //     })
+    // }
+
+    if (process.platform === 'darwin') {
+    const template = [
+        {
+            label: "Application",
+            submenu: [
+                { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+            ]
+        }, 
+        {
+            label: "Edit",
+            submenu: [
+                { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+                { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+                { label: "cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+                { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+                
+            ]
+        }
+    ];
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+    } else {
+    Menu.setApplicationMenu(null)
+}
+
+
     mainWindow.on('closed', () => {
         mainWindow = null
     })

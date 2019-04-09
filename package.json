@@ -23,18 +23,18 @@
     "directories": {
       "output": "build"
     },
-    "fileAssociations":[
-       {
-         "ext":["md"],
-         "name":"md",
-         "description":"markdown file",
-         "mimeType":"text/markdown",
-         "icon":"build/icons/icon.ico"
-       }
+    "fileAssociations": [
+      {
+        "ext": [
+          "md"
+        ],
+        "name": "md",
+        "description": "markdown file",
+        "mimeType": "text/markdown",
+        "icon": "build/icons/icon.ico"
+      }
     ],
-    "protocols":[
-      
-    ],
+    "protocols": [],
     "files": [
       "dist/electron/**/*"
     ],

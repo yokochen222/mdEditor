@@ -30,11 +30,12 @@ function getFilePathInfo(path) {
     const regContent = rBegin + rPath + rName + rSuffix + rEnd;
     const reg = new RegExp(regContent, '');
     const match = path.match(reg);
+    console.log(path)
     return {
         path:path,
-        name:match[2],
-        fullName:match[2]+"."+match[3],
-        suffix:match[3]
+        name:"match[2]",
+        fullName:"match[2]"+"."+"match[3]",
+        suffix:"match[3]"
     }
 }
 //读取文本文件

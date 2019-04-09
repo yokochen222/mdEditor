@@ -1,12 +1,12 @@
 <template>
-    <div class="md-header">
+    <div :class="['md-header',{'darwin-header':platform=='darwin'}]">
         <div class="brand-ico">
             <img src="@/assets/img/brand.svg"/>
         </div>
         <mdHeaderMenu/>
         <div class="md-header-title" v-text="titles" :title="title"></div>
         <div class="win-controll-warp">
-            <winControll/>
+            <winControll v-if="platform!='darwin'"/>
         </div>
     </div>
 </template>
@@ -15,6 +15,7 @@ import {mapGetters} from "vuex"
 import mdHeaderMenu from "@/components/mdHeaderMenu"
 import winControll from "@/components/winControll"
 import {getFilePathInfo} from "@/utils/NotePad"
+
 export default {
     components:{
         mdHeaderMenu,
@@ -27,12 +28,25 @@ export default {
                 return  getFilePathInfo(this.title).fullName +" - mdEditor"
             }
             return "mdEditor"
+        },
+        platform(){
+            return require('os').platform()
+        },
+        styles(){
+            return `
+                padding-left:130px
+            `
         }
+    },
+    mounted(){
     }
 }
 </script>
 
 <style lang="less" scoped>
+    .darwin-header{
+        padding-left: 60px;
+    }
     .md-header{
         height: 30px;
         line-height: 30px;
